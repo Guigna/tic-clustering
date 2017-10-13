@@ -1,0 +1,23 @@
+Código ELE	Código paper	Descripción
+J010	Basic	La empresa posee software básicos de oficina (procesadores de texto, planillas de cálculo, navegadores entre otros).
+J011	Mngt	La empresa posee software de administración (contabilidad, finanzas, ERP, facturación, entre otros).
+J012	CCM	La empresa posee software de ventas, marketing y gestión de clientes (CMR, control de cajas, puntos de venta y similares).
+J013	Core	La empresa posee software específico del giro (sistema de reservas, control de procesos, trazabilidad, entre otros).
+J014	Cloud	"La empresa posee software de cloud computing (servicios de computación a través de Internet; potencia de cálculo, capacidad de almacenamiento, entre otros)."
+J015	Sec	La empresa posee software de mantención de informáticos (antivirus, firewall, sistemas de encriptación, entre otros)
+J016	Non-system	La empresa posee no usa software
+J025	Invsuppliers	Uso de Internet para obtener información de bienes y servicios
+J026	Infosearch	Uso de Internet para obtener información de la competencia
+J028	Custcomm	Uso de Internet para Interactuar con sus clientes y/o proveedores
+J029	E-goverm	Uso de Internet para hacer trámites e interactuar con organismos del Estado
+J040	Non-website	No tiene sitio web
+J041	Co&Good-Info	Sitio web permite conocer detalles de la empresa, sus productos y servicios
+J042	Contact-form	Sitio web permite hacer preguntas y contactarse con la empresa
+J043	Orders	Sitio web permite ventas de productos o servicios
+J044	Payment	Sitio web permite pagar en línea
+J046	Orderinvent	Sitio web permite la realización de transacciones a proveedores
+J048	Delivery	Sitio web permite vender en línea con entrega/descarga online de productos
+J049	Aftersales	Sitio web permite realizar el seguimiento de compras y ventas.
+J051	Advertising	Usa redes sociales para desarrollo de imagen de la empresa o marketing de sus productos
+J055	Docexch	Usa redes sociales para involucrar al cliente en el desarrollo o innovación de los productos o servicios de la empresa
+J057	Recruit	Usa redes sociales para reclutamiento de trabajadores
