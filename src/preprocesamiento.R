@@ -1,0 +1,1 @@
+OriginalCSV <- read.csv(file="data.csv", header=T, sep=",", row.names=NULL)

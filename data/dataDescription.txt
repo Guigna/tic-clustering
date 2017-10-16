@@ -1,4 +1,5 @@
-Código ELE	Código paper	Descripción
+La descripción de los datos se encuentra en el siguiente orden: Código ELE, Código paper, Descripción.
+
 J010	Basic	La empresa posee software básicos de oficina (procesadores de texto, planillas de cálculo, navegadores entre otros).
 J011	Mngt	La empresa posee software de administración (contabilidad, finanzas, ERP, facturación, entre otros).
 J012	CCM	La empresa posee software de ventas, marketing y gestión de clientes (CMR, control de cajas, puntos de venta y similares).
