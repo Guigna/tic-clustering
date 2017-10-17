@@ -1,0 +1,6 @@
+silouehette
+
+http://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html
+
+https://www.datascience.com/blog/k-means-clustering
+
