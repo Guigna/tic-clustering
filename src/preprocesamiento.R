@@ -3,8 +3,9 @@
 # Cargado de datos desde el directorio local... 
 library(readr)
 #OriginalData <- read_delim("C:/Users/Lenovoo/Dropbox/Alejandro Cataldo/git project/data/data.csv",";", escape_double = FALSE, trim_ws = TRUE) 
-OriginalData <- read_csv("./data/data.csv")
-OriginalData <- data
+#OriginalData <- read_csv("./data/data.csv")
+OriginalData <- read_csv("../data/data.csv")
+#View(OriginalData)
 #names(OriginalData)
 #str(OriginalData)
 #dim(OriginalData)
@@ -17,14 +18,29 @@ binaryData <- OriginalData[,-c(1,2,3,4)]
 # Identificación y almacenamiento de las instancias que poseen ceros en todos los campos
 indremoved = which(apply(binaryData, 1, function(x) all(x == 0)) )
 paste("se removeran ",length(indremoved)," instancias que contienen solo ceros")
-#no parece haber un patron en las encuestas con ceros
+#"se removeran  223  instancias que contienen solo ceros"
 
+#no parece haber un patron en las encuestas con ceros
 #Removimiendo instancias que poseen ceros en todos los campos de ambas bases de datos
 binaryData = binaryData[ -indremoved, ]
 OriginalData = OriginalData[ -indremoved, ]
 
 #dim(binaryData)
 #[1] 7861   22
+
+## revisar varianzas para ver si podemos remover oclumnas
+barplot(sapply(binaryData, var), horiz=T, las=1, cex.names=0.8)
+### atributo Non-system muestra muy poca varianza
+sd(binaryData$`Non-system`)
+length(which(binaryData$`Non-system`==1))
+## tiene sentido pitiarse a non-system
+binaryData <- binaryData[,!colnames(binaryData)=="Non-system"]
+
+#View(binaryData)
+barplot(sapply(binaryData, var), horiz=T, las=1, cex.names=0.8)
+
+## after sales se salva
+#sd(binaryData$Aftersales)#  su varianza se 0.22
 
 # No es necesario escalar los datos, debido a que son binarios
 
@@ -40,6 +56,26 @@ OriginalData = OriginalData[ -indremoved, ]
 # install.packages("devtools")
 # require("devtools")
 # devtools::install_github("kassambara/factoextra")
+
+############################################################
+#### PCA
+# apply PCA - scale. = TRUE is highly 
+# advisable, but default is FALSE. 
+binaryData.pca <- prcomp(binaryData,
+                   center = TRUE,
+                   scale. = TRUE) 
+plot(binaryData.pca)
+#library(devtools)
+#install_github('sinhrks/ggfortify')
+install.packages("rlang")
+library(ggfortify)
+##http://rpubs.com/sinhrks/plot_pca
+#autoplot(binaryData.pca,data=binaryData)
+autoplot(binaryData.pca,data=OriginalData,colour='Tamaño_ELE4')
+autoplot(binaryData.pca)
+###########################################################
+
+
 
 library("factoextra")
 res <- get_clust_tendency(binaryData, n= 40 , graph = TRUE)
@@ -87,7 +123,6 @@ library(factoextra)
 fviz_gap_stat(gap_stat)
 
 
-barplot(sapply(binaryData, var), horiz=T, las=1, cex.names=0.8)
 
 #No existen datos faltantes! :)
 
