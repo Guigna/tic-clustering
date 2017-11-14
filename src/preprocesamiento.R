@@ -3,8 +3,8 @@
 # Cargado de datos desde el directorio local... 
 library(readr)
 #OriginalData <- read_delim("C:/Users/Lenovoo/Dropbox/Alejandro Cataldo/git project/data/data.csv",";", escape_double = FALSE, trim_ws = TRUE) 
-OriginalData <- read_csv("../data/data.csv")
-
+OriginalData <- read_csv("./data/data.csv")
+OriginalData <- data
 #names(OriginalData)
 #str(OriginalData)
 #dim(OriginalData)
@@ -26,6 +26,67 @@ OriginalData = OriginalData[ -indremoved, ]
 #dim(binaryData)
 #[1] 7861   22
 
+# No es necesario escalar los datos, debido a que son binarios
+
+# EVALUANDO LA EXISTENCIA DE CLUSTER:
+
+# La funcion "get_clust_tendency" utiliza el estadistico de Hopskin 
+# para evaluar la tendencia a formar cluster que los datos poseen.
+# Este estadistico posee un rango de 0 a 1, donde valor cercano a 1 permite concluir 
+# una alta probabilidad de existencia de cluster. En general, un valor sobre 0.5
+# indica que existe tendencia a formar clusters.
+
+# install.packages(c("factoextra", "clustertend"))
+# install.packages("devtools")
+# require("devtools")
+# devtools::install_github("kassambara/factoextra")
+
+library("factoextra")
+res <- get_clust_tendency(binaryData, n= 40 , graph = TRUE)
+res$hopkins_stat
+#[1] 0.6503583, en este caso, el valor es mayor que 0.5 por lo tanto los datos poseen 
+# tendencia a formar clusters.
+
+# Otra forma de evaluar la tendencia a formar cluster, es utilizar el metodo visual,
+# sin embargo, necesita muchos recursos computacionales cuando la base de datos estudiada
+# es relativamente grande.
+print(res$plot) 
+
+#DETERMINANDO EL NUMERO OPTIMO DE CLUSTERS:
+# se han implementado los siguiente metodos:
+# - Elbow
+# - Silhouette method
+# - Gap statistic
+
+install.packages("NbClust")
+library(factoextra)
+library(NbClust)
+
+fviz_nbclust(binaryData, kmeans, method = "wss") + geom_vline(xintercept = 4, linetype = 2) +
+  labs(subtitle = "Elbow method")
+
+# Silhouette method
+fviz_nbclust(binaryData, kmeans, method = "silhouette") + labs(subtitle = "Silhouette method")
+
+# Gap statistic
+# nboot = 50 to keep the function speedy. 
+# recommended value: nboot= 500 for your analysis.
+# Use verbose = FALSE to hide computing progression.
+set.seed(123)
+fviz_nbclust(binaryData, kmeans, nstart = 25,  method = "gap_stat", nboot = 50)+ 
+  labs(subtitle = "Gap statistic method")
+
+# Gap statistic:
+library("cluster")
+set.seed(123)
+# Compute the gap statistic
+gap_stat <- clusGap(binaryData, FUN = kmeans, nstart = 25, 
+                    K.max = 10, B = 500) 
+# Plot the result
+library(factoextra)
+fviz_gap_stat(gap_stat)
+
+
 barplot(sapply(binaryData, var), horiz=T, las=1, cex.names=0.8)
 
 #No existen datos faltantes! :)
@@ -41,6 +102,9 @@ outliers_1<-identify(qqnorm(pc$x[,1],pch = 20))
 #Con el fin de representar al menos el 85% de la informaci?n áéíóú de los datos, se trabaja sobre la base de los 12 primeros componentes principales
 comp <- data.frame(pc$x[,1:12])
 plot(comp[,1:3], pch=16, col=rgb(0,0,0,0.5))
+
+gap_stat <- clusGap(comp, FUN = kmeans, nstart = 25, 
+                    K.max = 10, B = 50) 
 
 
 ################## Apply k-means ##############
