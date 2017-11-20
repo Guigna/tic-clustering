@@ -98,6 +98,7 @@ install.packages("NbClust")
 library(factoextra)
 library(NbClust)
 
+# Elbow method
 fviz_nbclust(binaryData, kmeans, method = "wss") + geom_vline(xintercept = 4, linetype = 2) +
   labs(subtitle = "Elbow method")
 
@@ -115,6 +116,7 @@ fviz_nbclust(binaryData, kmeans, nstart = 25,  method = "gap_stat", nboot = 50)+
 # Gap statistic:
 library("cluster")
 set.seed(123)
+
 # Compute the gap statistic
 gap_stat <- clusGap(binaryData, FUN = kmeans, nstart = 25, 
                     K.max = 10, B = 500) 
@@ -122,6 +124,13 @@ gap_stat <- clusGap(binaryData, FUN = kmeans, nstart = 25,
 library(factoextra)
 fviz_gap_stat(gap_stat)
 
+# Es posible realizar 30 test diferentes para determinar el número ótimo de clusters
+library("NbClust")
+nb <- NbClust(binaryData, distance = "euclidean", min.nc = 2,
+              max.nc = 15, method = "kmeans")
+
+library("factoextra")
+fviz_nbclust(nb)
 
 
 #No existen datos faltantes! :)
