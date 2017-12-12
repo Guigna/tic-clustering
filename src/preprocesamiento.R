@@ -1,4 +1,9 @@
 
+# set to source directory
+## install.packages("rstudioapi")
+# setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+## getwd()
+
 
 # Cargado de datos desde el directorio local... 
 library(readr)
@@ -67,7 +72,7 @@ binaryData.pca <- prcomp(binaryData,
 plot(binaryData.pca)
 #library(devtools)
 #install_github('sinhrks/ggfortify')
-install.packages("rlang")
+#install.packages("rlang")
 library(ggfortify)
 ##http://rpubs.com/sinhrks/plot_pca
 #autoplot(binaryData.pca,data=binaryData)
@@ -80,7 +85,7 @@ autoplot(binaryData.pca)
 library("factoextra")
 res <- get_clust_tendency(binaryData, n= 40 , graph = TRUE)
 res$hopkins_stat
-#[1] 0.6503583, en este caso, el valor es mayor que 0.5 por lo tanto los datos poseen 
+#[1] 0.6381021, en este caso, el valor es mayor que 0.5 por lo tanto los datos poseen 
 # tendencia a formar clusters.
 
 # Otra forma de evaluar la tendencia a formar cluster, es utilizar el metodo visual,
@@ -94,7 +99,7 @@ print(res$plot)
 # - Silhouette method
 # - Gap statistic
 
-install.packages("NbClust")
+#install.packages("NbClust")
 library(factoextra)
 library(NbClust)
 
@@ -104,6 +109,9 @@ fviz_nbclust(binaryData, kmeans, method = "wss") + geom_vline(xintercept = 4, li
 
 # Silhouette method
 fviz_nbclust(binaryData, kmeans, method = "silhouette") + labs(subtitle = "Silhouette method")
+#fviz_nbclust(binaryData, FUNcluster = hcut, method = "silhouette") + labs(subtitle = "Silhouette method")
+#fviz_nbclust(binaryData, FUNcluster = cluster::pam, method = "silhouette") + labs(subtitle = "Silhouette method")
+#fviz_nbclust(binaryData, FUNcluster = cluster::clara, method = "silhouette") + labs(subtitle = "Silhouette method")
 
 # Gap statistic
 # nboot = 50 to keep the function speedy. 
@@ -124,7 +132,7 @@ gap_stat <- clusGap(binaryData, FUN = kmeans, nstart = 25,
 library(factoextra)
 fviz_gap_stat(gap_stat)
 
-# Es posible realizar 30 test diferentes para determinar el número ótimo de clusters
+# Es posible realizar 30 test diferentes para determinar el n?mero ?timo de clusters
 library("NbClust")
 nb <- NbClust(binaryData, distance = "euclidean", min.nc = 2,
               max.nc = 15, method = "kmeans")
